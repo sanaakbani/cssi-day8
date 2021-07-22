@@ -1,32 +1,17 @@
-const getMessages = () => {
+document.querySelector("#viewMsg").addEventListener("cick", (e) => {
+    const userPasscodeGuess = document.querySelector("#passcode").value;
+
     const messagesRef = firebase.database().ref();
-    messagesRef.on('value', (snapshot) => {
+    messagesRef.on("value", (snapshot) => {
         const data = snapshot.val();
-        console.log(data)
         for(let key in data) {
-            const message = data[key];
-            console.log(message);
-            if(myPass == message.passcode){
-                renderMessage(message);
+            if(data[key].passcode == userPasscodeGuess) {
+                display(data[key]);
             }
         }
     });
+});
+
+function display(messageObject) {
+    document.querySelector("#message").innerHTML = messageObject.message;
 }
-
-const findMessage = (myPass) => {
-    const messagesRef = firebase.database().ref();
-    messagesRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        console.log(data)
-        for(let key in data) {
-            const message = data[key];
-            console.log(message);
-            if(myPass == message.passcode){
-                renderMessage(message);
-            }
-        }
-    });
-}
-
-
-getMessages();
